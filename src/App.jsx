@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Usercard from './components/Usercard';
 import DarkModeToggle from './components/DarkModeToggle';
 import SkeletonCard from './components/skeletonCard';
-
+import Pagination from './components/Pagination';
 
 function App() {
   const [search, setSearch] = useState("");
@@ -10,30 +10,44 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("asc")
 
+  const sortedUsers = [...users].sort((a, b) => {
+    const nameA = `${a.name.first} ${a.name.last}`.toLowerCase();
+    const nameB = `${b.name.first} ${b.name.last}`.toLowerCase();
+    return sortOrder === "asc" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+  });
+
+  const filterUsers = sortedUsers.filter(user =>
+    `${user.name.first} ${user.name.last}`.toLowerCase().includes(search.toLowerCase())
+  );
+
+  // for more users
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 8;
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filterUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=10')
+    fetch('https://randomuser.me/api/?results=50')
       .then(res => res.json())
       .then(data => {
         setUsers(data.results); // store full user objects
         setLoading(false);
       });
   }, []);
-
-  const sortedUsers = [...users].sort((a, b) => {
-  const nameA = `${a.name.first} ${a.name.last}`.toLowerCase();
-  const nameB = `${b.name.first} ${b.name.last}`.toLowerCase();
-  return sortOrder === "asc" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-});
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
 
 
-  const filterUsers = sortedUsers.filter(user =>
-  `${user.name.first} ${user.name.last}`.toLowerCase().includes(search.toLowerCase())
-);
+
 
 
   return (
     <div className="bg-gray-100 min-h-screen py-10 px-5 dark:bg-gray-900 dark:text-white transition-colors duration-300">
-      
+
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
 
 
@@ -70,7 +84,7 @@ function App() {
           ))
         ) : (
           filterUsers.length > 0 ? (
-            filterUsers.map((user, index) => (
+            currentUsers.map((user, index) => (
               <Usercard
                 key={index}
                 name={`${user.name.first} ${user.name.last}`}
@@ -85,7 +99,15 @@ function App() {
             <p className="col-span-full text-center text-gray-500 dark:text-gray-400">No users found.</p>
           )
         )}
+
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(filterUsers.length / usersPerPage)}
+        onPageChange={setCurrentPage}
+      />
+
+
     </div>
   );
 }
