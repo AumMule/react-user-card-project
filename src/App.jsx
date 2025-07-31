@@ -15,7 +15,7 @@ function App() {
   const [sortOrder, setSortOrder] = useState("asc") //order of user according to names
   const [selectedUser, setSelectedUser] = useState(null); //select specific user
 
-
+  
   const sortedUsers = [...users].sort((a, b) => {
     const nameA = `${a.name.first} ${a.name.last}`.toLowerCase();
     const nameB = `${b.name.first} ${b.name.last}`.toLowerCase();

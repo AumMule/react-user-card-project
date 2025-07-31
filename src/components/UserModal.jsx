@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 
+
 const UserModal = ({ user, onClose }) => {
   if (!user) return null;
 
