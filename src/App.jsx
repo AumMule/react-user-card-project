@@ -3,12 +3,18 @@ import Usercard from './components/Usercard';
 import DarkModeToggle from './components/DarkModeToggle';
 import SkeletonCard from './components/skeletonCard';
 import Pagination from './components/Pagination';
+import UserModal from './components/userModal';
+
+import { AnimatePresence } from 'framer-motion';
+
 
 function App() {
-  const [search, setSearch] = useState("");
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [sortOrder, setSortOrder] = useState("asc")
+  const [search, setSearch] = useState("");//for search functionality
+  const [users, setUsers] = useState([]); //for setting users
+  const [loading, setLoading] = useState(true); //for loading users
+  const [sortOrder, setSortOrder] = useState("asc") //order of user according to names
+  const [selectedUser, setSelectedUser] = useState(null); //select specific user
+
 
   const sortedUsers = [...users].sort((a, b) => {
     const nameA = `${a.name.first} ${a.name.last}`.toLowerCase();
@@ -30,7 +36,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=50')
+    fetch('https://randomuser.me/api/?results=8')
       .then(res => res.json())
       .then(data => {
         setUsers(data.results); // store full user objects
@@ -93,6 +99,7 @@ function App() {
                 phone={user.phone}
                 country={user.location.country}
                 username={user.login.username}
+                onClick={() => setSelectedUser(user)}
               />
             ))
           ) : (
@@ -100,7 +107,17 @@ function App() {
           )
         )}
 
+        <AnimatePresence>
+          {selectedUser && (
+            <UserModal user={selectedUser} onClose={() => setSelectedUser(null)} />
+          )}
+        </AnimatePresence>
+
+
+
+
       </div>
+
       <Pagination
         currentPage={currentPage}
         totalPages={Math.ceil(filterUsers.length / usersPerPage)}
