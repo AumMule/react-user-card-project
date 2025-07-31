@@ -20,9 +20,9 @@ const DarkModeToggle = () => {
   return (
     <button
       onClick={() => setDarkMode((prev) => !prev)}
-      className="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-800 text-black dark:text-white shadow"
+      className="px-2 py-2 rounded-md bg-gray-200 dark:bg-gray-800 text-black dark:text-white shadow"
     >
-      {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+      {darkMode ? "☀️" : "🌙"}
     </button>
   );
 };

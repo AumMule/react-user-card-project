@@ -1,20 +1,15 @@
-function Usercard({ name, title, imgUrl }) {
+function Usercard({ name, title, imgUrl, phone, country, username }) {
   return (
-    <div className="max-w-sm bg-white rounded-xl shadow-lg overflow-hidden dark:bg-gray-800 dark:text-white transition-colors duration-300">
-      <img
-        src={imgUrl}
-        alt={name}
-        className="w-full h-64 object-cover"
-      />
-      <div className="p-6 text-center">
-        <h2 className="text-xl font-bold">{name}</h2>
-        <p className="text-gray-600">{title}</p>
-        <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-          Follow
-        </button>
-      </div>
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transition-colors duration-300">
+      <img src={imgUrl} alt={name} className="w-24 h-24 rounded-full mx-auto mb-4" />
+      <h2 className="text-xl font-semibold text-center">{name}</h2>
+      <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-2">{title}</p>
+      <p className="text-sm text-center text-gray-600 dark:text-gray-300">📞 {phone}</p>
+      <p className="text-sm text-center text-gray-600 dark:text-gray-300">🌍 {country}</p>
+      <p className="text-sm text-center text-gray-600 dark:text-gray-300">👤 {username}</p>
     </div>
   );
 }
+
 
 export default Usercard;
