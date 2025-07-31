@@ -1,6 +1,6 @@
 function Usercard({ name, title, imgUrl }) {
   return (
-    <div className="max-w-sm bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="max-w-sm bg-white rounded-xl shadow-lg overflow-hidden dark:bg-gray-800 dark:text-white transition-colors duration-300">
       <img
         src={imgUrl}
         alt={name}
