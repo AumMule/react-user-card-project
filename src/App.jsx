@@ -4,7 +4,7 @@ import Usercard from './components/Usercard';
 import DarkModeToggle from './components/DarkModeToggle';
 import SkeletonCard from './components/skeletonCard';
 import Pagination from './components/Pagination';
-import UserModal from './components/userModal';
+import UserModal from './components/UserModal';
 
 import { AnimatePresence } from 'framer-motion';
 
